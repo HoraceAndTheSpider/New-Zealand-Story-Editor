@@ -1,0 +1,780 @@
+{
+  "diskSHA256": "fec7ce66934497b65745aa658599bdc697cf0ea0111d77d211fce3f48e27b416",
+  "diskSize": 901120,
+  "tileSource": "Decoded directly from Disk.1: RLE with per-bank escape, 4-planar 16x16 tiles",
+  "paletteStatus": "Original 16 RGB777 words recovered from each native bank; browser conversion doubles RGB nibbles pending runtime Copper/COLOR trace",
+  "nativeBanks": [
+    {
+      "bank": 0,
+      "offset": 11264,
+      "packedBytes": 20796,
+      "unpackedBytes": 22272,
+      "escape": 44,
+      "tiles": 173,
+      "pixelSHA256": "37e748053fa90f17519b17b872c57574609d65e1a8310d6311a1e869bb2334dc",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 1,
+      "offset": 33792,
+      "packedBytes": 23164,
+      "unpackedBytes": 25472,
+      "escape": 37,
+      "tiles": 198,
+      "pixelSHA256": "25805e783734fd3f0d3b31a606b4491c70399f1ff0cc421590144fb03d3a37b6",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 2,
+      "offset": 61952,
+      "packedBytes": 16016,
+      "unpackedBytes": 17280,
+      "escape": 21,
+      "tiles": 134,
+      "pixelSHA256": "011003738d6ffa887587059873aa0ea480cb53e1baaff2c123063a7d2e25ec65",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 3,
+      "offset": 78848,
+      "packedBytes": 21519,
+      "unpackedBytes": 24320,
+      "escape": 83,
+      "tiles": 189,
+      "pixelSHA256": "b60d18b42c5d71b9aacfdd89022274114fec52bcbeacb9930482710d4083d60f",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 4,
+      "offset": 123904,
+      "packedBytes": 12686,
+      "unpackedBytes": 13824,
+      "escape": 77,
+      "tiles": 107,
+      "pixelSHA256": "e7aa746e74cc240a363b74da882bfb4ac373d6b69f57e58a4e89f46f5f80a2ab",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 5,
+      "offset": 163328,
+      "packedBytes": 25345,
+      "unpackedBytes": 28160,
+      "escape": 43,
+      "tiles": 219,
+      "pixelSHA256": "b4431eb6b8fea212708b90f0486551f8cb8322a4acdab9493c2e4fdd4cb42a0b",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 6,
+      "offset": 191488,
+      "packedBytes": 23592,
+      "unpackedBytes": 26368,
+      "escape": 177,
+      "tiles": 205,
+      "pixelSHA256": "ed4c9bc7168b9271129fe519a762dcef944660e66f5f240f214dd98a6c9e5668",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 7,
+      "offset": 219648,
+      "packedBytes": 25606,
+      "unpackedBytes": 28160,
+      "escape": 75,
+      "tiles": 219,
+      "pixelSHA256": "3ebc186b08313cfbe8b6230c1d75c3201a3df4ff52974e649a925921d75974e8",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 8,
+      "offset": 247808,
+      "packedBytes": 22080,
+      "unpackedBytes": 24704,
+      "escape": 150,
+      "tiles": 192,
+      "pixelSHA256": "b822310bc32fe898fcabc83acc6a47f5dc4004ea7ff5a0d23fed7048666a287a",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 9,
+      "offset": 292864,
+      "packedBytes": 17750,
+      "unpackedBytes": 20352,
+      "escape": 137,
+      "tiles": 158,
+      "pixelSHA256": "05b5bc048b4dd2d510481e605184960e98b5e3f383d7e8e4a4739cfe350f8f4f",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 10,
+      "offset": 332288,
+      "packedBytes": 17371,
+      "unpackedBytes": 20224,
+      "escape": 40,
+      "tiles": 157,
+      "pixelSHA256": "639b004a333be253e54bcf95cb792329ef1743f84397c8ad9eb34138ff207ef9",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 11,
+      "offset": 354816,
+      "packedBytes": 28155,
+      "unpackedBytes": 32896,
+      "escape": 37,
+      "tiles": 256,
+      "pixelSHA256": "638286abbde07a17411e36bf9021e31815bd0d792e750441903e18a302ac011a",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 12,
+      "offset": 394240,
+      "packedBytes": 22065,
+      "unpackedBytes": 24576,
+      "escape": 43,
+      "tiles": 191,
+      "pixelSHA256": "9af275978b7ce7c31d392cea6e5b2a6776f87e6e90489df24307fa54c0057b5c",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 13,
+      "offset": 416768,
+      "packedBytes": 27015,
+      "unpackedBytes": 28160,
+      "escape": 52,
+      "tiles": 219,
+      "pixelSHA256": "23e78230bce3e13fd69cbca5d9f0c3bf968a73fd9985e1957a6ca31dd4b45e4b",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 14,
+      "offset": 456192,
+      "packedBytes": 12127,
+      "unpackedBytes": 15104,
+      "escape": 20,
+      "tiles": 117,
+      "pixelSHA256": "c8827c67bb1cdb21f5c80e5168bd869c8d7bd66332b2cbdbc3fd446ee706c2da",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    },
+    {
+      "bank": 15,
+      "offset": 473088,
+      "packedBytes": 22307,
+      "unpackedBytes": 25728,
+      "escape": 53,
+      "tiles": 200,
+      "pixelSHA256": "1fd6606599794bb9573556a8d144286fad59cbb1f714d11b965df15d172950cb",
+      "paletteWords": [
+        "$0000",
+        "$0307",
+        "$0111",
+        "$0521",
+        "$0640",
+        "$0430",
+        "$0030",
+        "$0555",
+        "$0300",
+        "$0007",
+        "$0700",
+        "$0157",
+        "$0740",
+        "$0662",
+        "$0070",
+        "$0777"
+      ]
+    }
+  ],
+  "levelAtlas": [
+    {
+      "level": "1_1",
+      "bank": 0,
+      "tiles": 173,
+      "mapOffset": "0x18C80",
+      "offBankTileCells": 971
+    },
+    {
+      "level": "1_2",
+      "bank": 1,
+      "tiles": 198,
+      "mapOffset": "0x1A280",
+      "offBankTileCells": 132
+    },
+    {
+      "level": "1_3",
+      "bank": 2,
+      "tiles": 134,
+      "mapOffset": "0x1B880",
+      "offBankTileCells": 565
+    },
+    {
+      "level": "1_4",
+      "bank": 3,
+      "tiles": 189,
+      "mapOffset": "0x1CE80",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "2_1",
+      "bank": 4,
+      "tiles": 107,
+      "mapOffset": "0x22680",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "2_2",
+      "bank": 4,
+      "tiles": 107,
+      "mapOffset": "0x23C80",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "2_3",
+      "bank": 4,
+      "tiles": 107,
+      "mapOffset": "0x25280",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "2_4",
+      "bank": 4,
+      "tiles": 107,
+      "mapOffset": "0x26880",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "3_1",
+      "bank": 5,
+      "tiles": 219,
+      "mapOffset": "0x42080",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "3_2",
+      "bank": 6,
+      "tiles": 205,
+      "mapOffset": "0x43680",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "3_3",
+      "bank": 7,
+      "tiles": 219,
+      "mapOffset": "0x44C80",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "3_4",
+      "bank": 8,
+      "tiles": 192,
+      "mapOffset": "0x46280",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "4_1",
+      "bank": 9,
+      "tiles": 158,
+      "mapOffset": "0x4D080",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "4_2",
+      "bank": 9,
+      "tiles": 158,
+      "mapOffset": "0x4E680",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "4_3",
+      "bank": 9,
+      "tiles": 158,
+      "mapOffset": "0x4FC80",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "4_4",
+      "bank": 10,
+      "tiles": 157,
+      "mapOffset": "0x5D880",
+      "offBankTileCells": 346
+    },
+    {
+      "level": "4_4b",
+      "bank": 11,
+      "tiles": 256,
+      "mapOffset": "0x5EE80",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "5_1",
+      "bank": 12,
+      "tiles": 191,
+      "mapOffset": "0x6CA80",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "5_2",
+      "bank": 13,
+      "tiles": 219,
+      "mapOffset": "0x6E080",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "5_3",
+      "bank": 14,
+      "tiles": 117,
+      "mapOffset": "0x79080",
+      "offBankTileCells": 0
+    },
+    {
+      "level": "5_4",
+      "bank": 15,
+      "tiles": 200,
+      "mapOffset": "0x7A680",
+      "offBankTileCells": 0
+    }
+  ],
+  "levelHeaders": [
+    {
+      "level": "1_1",
+      "fileOffset": 101376,
+      "mapWidth": 64,
+      "mapHeight": 14,
+      "word0E": 0,
+      "word10": 0,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "1_2",
+      "fileOffset": 107008,
+      "mapWidth": 64,
+      "mapHeight": 32,
+      "word0E": 0,
+      "word10": 0,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "1_3",
+      "fileOffset": 112640,
+      "mapWidth": 64,
+      "mapHeight": 32,
+      "word0E": 33,
+      "word10": 10,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "1_4",
+      "fileOffset": 118272,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 0,
+      "word10": 38,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "2_1",
+      "fileOffset": 140800,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 0,
+      "word10": 11,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "2_2",
+      "fileOffset": 146432,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 44,
+      "word10": 24,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "2_3",
+      "fileOffset": 152064,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 0,
+      "word10": 43,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "2_4",
+      "fileOffset": 157696,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 30,
+      "word10": 55,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "3_1",
+      "fileOffset": 270336,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 0,
+      "word10": 52,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "3_2",
+      "fileOffset": 275968,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 25,
+      "word10": 17,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "3_3",
+      "fileOffset": 281600,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 44,
+      "word10": 55,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "3_4",
+      "fileOffset": 287232,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 42,
+      "word10": 24,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "4_1",
+      "fileOffset": 315392,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 44,
+      "word10": 55,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "4_2",
+      "fileOffset": 321024,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 44,
+      "word10": 39,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "4_3",
+      "fileOffset": 326656,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 7,
+      "word10": 7,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "4_4",
+      "fileOffset": 382976,
+      "mapWidth": 64,
+      "mapHeight": 48,
+      "word0E": 0,
+      "word10": 0,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "4_4b",
+      "fileOffset": 388608,
+      "mapWidth": 64,
+      "mapHeight": 48,
+      "word0E": 0,
+      "word10": 39,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "5_1",
+      "fileOffset": 444928,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 44,
+      "word10": 55,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "5_2",
+      "fileOffset": 450560,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 38,
+      "word10": 47,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "5_3",
+      "fileOffset": 495616,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 44,
+      "word10": 0,
+      "coordinatesStatus": "unclassified"
+    },
+    {
+      "level": "5_4",
+      "fileOffset": 501248,
+      "mapWidth": 64,
+      "mapHeight": 64,
+      "word0E": 44,
+      "word10": 0,
+      "coordinatesStatus": "unclassified"
+    }
+  ]
+}

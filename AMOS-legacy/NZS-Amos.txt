@@ -1,0 +1,347 @@
+'
+'  NZS Editor / Map Viewer / Whatever
+'
+
+
+Reserve As Work 9,901120
+Bload "disk.1",9
+
+Screen Open 0,320,256,32,Lowres
+
+   Rem Screen Hide 0 : Curs Off 
+   Cls 0
+
+   Screen 0
+   Colour 15,$F0F
+
+ For A=0 To 15
+   Ink A,0 : Box 0,0 To 16,16
+   Get Bob A+1,0,0 To 17,17 : Hot Spot A+1,$0
+ Next A
+   Wait Vbl 
+
+
+Screen Close 0
+
+
+LEVEL=1 : TILEHELD=0
+
+
+_LEVELRELOAD:
+
+Gosub _LEVELSTATPOS
+
+
+DISP_WIDTH=320
+DISP_HEIGHT=200
+VIEY=1024-DISP_HEIGHT
+VIEX=0
+
+
+'open tiles
+   Screen Open 1,704,112,16,Lowres : Screen Hide 1 : Screen 1
+   Load Iff "tiles iff/"+LEVEL$+".iff",1 : Screen Hide 1
+
+
+
+
+' map screen 
+Screen Open 0,1023,1023,32,Lowres
+
+Def Fn MAPDATA=Peek(Start(9)+LEVELDATA+(Y*$40)+(X))
+Def Fn MYHEX$=Right$(Hex$(IN+$10000),2)
+
+
+Screen 0 : Get Palette 1 : Flash Off : Curs Off 
+Screen Display 0,120,104,DISP_WIDTH,DISP_HEIGHT-1 : Screen Hide 0
+
+Screen Open 2,320,38,16,Lowres
+Screen Display 2,120,,320,256
+Curs Off : Flash Off : Get Palette 1
+
+Colour 0,0
+Screen 2 : Cls 0
+   Ink 15,0 : Text 40,20,"DRAWING MAP..."
+
+
+
+   SPEED=4 : QUIT=False
+   Screen 0
+   Gosub _DRAWMAP
+   Screen Show 0
+
+   Screen 2 : Cls 0
+
+   Limit Mouse X Hard(0),Y Hard(0) To X Hard(320)-1,Y Hard(256)-2
+Rem   Flash 16,"(F0F,16)(000,16)"
+
+   Reserve Zone 10
+
+   Gosub _DRAWSWATCH
+
+
+_MAINLOOP:
+
+
+
+Repeat 
+      Screen Offset 0,VIEX,VIEY
+
+      If Key State($4C)=-1 Then VIEY=VIEY-SPEED
+      If Key State($4D)=-1 Then VIEY=VIEY+SPEED
+
+      If Key State($4F)=-1 Then VIEX=VIEX-SPEED
+      If Key State($4E)=-1 Then VIEX=VIEX+SPEED
+
+      If VIEY<0 Then VIEY=0
+      If VIEY>1024-DISP_HEIGHT Then VIEY=1024-DISP_HEIGHT
+
+      If VIEX<0 Then VIEX=0
+      If VIEX>1024-DISP_WIDTH-16 Then VIEX=1024-DISP_WIDTH-16
+
+      If Key State($B)=-1 : LEVEL=LEVEL-1 : QUIT=True : End If 
+      If Key State($C)=-1 : LEVEL=LEVEL+1 : QUIT=True : End If 
+
+      If LEVEL<1 Then LEVEL=21
+      If LEVEL>21 Then LEVEL=1
+
+     If Key State($21)=-1 : Gosub _SAVEFILE : End If 
+
+
+      Screen 2
+           If Mouse Key=1 and Mouse Zone=1 or Key State($38)=True
+
+            TILEHELD=TILEHELD-1
+           If TILEHELD<0 : TILEHELD=0 : End If 
+
+            Gosub _DRAWSWATCH
+            Wait 5
+
+      Else If Mouse Key=1 and Mouse Zone=2 or Key State($39)=True
+
+            TILEHELD=TILEHELD+1
+         If TILEHELD>$FF : TILEHELD=$FF : End If 
+            Gosub _DRAWSWATCH
+            KEYHELD=True
+            Wait 5
+
+       End If 
+
+      If Mouse Key=0 Then KEYHELD=False
+
+
+      If Mouse Screen=0 and Mouse Key=2
+         TILEHELD= Fn MAPDATA
+         Gosub _DRAWSWATCH
+
+      Else If Mouse Screen=0 and Mouse Key=1
+         IN_TILE=TILEHELD
+         Gosub _MAPDATA_PATCH
+
+      End If 
+
+      Gosub _TEXTSCREEN
+      Gosub _CURSOR
+
+
+      COUNT=COUNT+1
+      If COUNT=17 Then COUNT=0
+
+      Wait Vbl 
+
+
+
+Until QUIT=True
+
+Screen 2 : Colour 0,0 : Cls 0
+
+Goto _LEVELRELOAD : 
+
+
+End 
+
+_SAVEFILE:
+
+   Screen 2
+   Colour 0,$F0
+   Bsave "disk.1",Start(9) To Start(9)+Length(9)
+   Wait 5 : Wait Vbl 
+   Colour 0,0
+   Screen 0 : Colour 0,0
+
+Return 
+
+_MAPDATA_PATCH:
+      Poke(Start(9)+LEVELDATA+(Y*$40)+(X)),IN_TILE
+      X=CURSX
+      Y=CURSY
+            OUTX=(X*16)-8 : OUTY=1024-((Y*16)+16)
+Rem            IN_TILE= Fn MAPDATA-LEVELTILEOFFSET 
+            OUTSCREEN=0
+
+            Gosub _PASTETILE
+
+Return 
+
+_CURSOR:
+
+   Screen 0
+
+   If CURSX>-1 and CURSX<64 and CURSY>-1 and CURSY<64 and Mouse Screen=0
+      Sprite 2,X Hard(0,-8+(CURSX*16))-VIEX,Y Hard(0,(1024-CURSY*16))-VIEY-16,COUNT
+   Else 
+      Sprite Off 2
+   End If 
+
+Return 
+
+
+_TEXTSCREEN:
+
+   Screen 2
+
+   CURSX=VIEX+X Mouse-112+8
+   CURSY=1024-(VIEY+Y Mouse-104)
+   CURSX=CURSX/16
+   CURSY=CURSY/16
+
+   Ink 13,0 : Text 10,6,"X"
+   Ink 15,0 : IN=CURSX : Text 20,6, Fn MYHEX$
+   Ink 13,0 : Text 40,6,"Y"
+   Ink 15,0 : IN=CURSY : Text 50,6, Fn MYHEX$
+
+   X=CURSX : Y=CURSY
+   If X>-1 and X<64 and Y>-1 and Y<64
+
+   Ink 14,0 : Text 10,36,"TILE:"
+
+   Ink 15,0 : IN= Fn MAPDATA : Text 50,36, Fn MYHEX$
+
+   Ink 14,0 : Text 70,36,"HELD:"
+   Ink 15,0 : IN=TILEHELD : Text 110,36, Fn MYHEX$
+
+   Ink 15,0 : IN=Mouse Zone : Text 300,6, Fn MYHEX$
+   End If 
+
+
+Return 
+
+_DRAWSWATCH:
+
+Rem-- the tile-swatch
+   Screen 2
+
+   Ink 12,0 : Text 150,32,"<"
+   Set Zone 1,150,24 To 158,32
+
+   Ink 12,0 : Text 306,32,">"
+   Set Zone 2,306,24 To 314,32
+
+   Set Zone 3,150,21 To 314,38
+
+      For A=0 To 7
+            OUTX=160+(A*18) : OUTY=21 : OUTSCREEN=2
+            If TILEHELD+A<$100
+               IN_TILE=TILEHELD+A
+               Gosub _PASTETILE
+            End If 
+
+      Next A
+
+Return 
+
+
+
+_DRAWMAP:
+
+   For Y=0 To $3F
+      For X=0 To $40
+      Rem   Text(X*16),1024-((Y*16)+8),Right$(Hex$( Fn MAPDATA+$1000),2) 
+
+            OUTX=(X*16)-8 : OUTY=1024-((Y*16)+16)
+            IN_TILE= Fn MAPDATA-LEVELTILEOFFSET
+            OUTSCREEN=0
+            Gosub _PASTETILE
+
+      Next X
+   Next Y
+
+Return 
+
+_PASTETILE:
+
+
+  XX=IN_TILE mod 44
+  YY=IN_TILE-XX
+  YY=YY/44
+
+  INX=XX*16
+  INY=YY*16
+
+   Screen Copy 1,INX,INY,INX+16,INY+16 To OUTSCREEN,OUTX,OUTY
+
+
+Return 
+
+_LEVELSTATPOS:
+
+' level 1
+'LEVELDATA=$18C80
+'LEVELDATA=$1A280
+'LEVELDATA=$1B880
+' 1e480 vs 226c0 
+
+
+      If LEVEL>0 and LEVEL<5 : Rem -- 1,2,3,4 
+      LEVELDATA=$18C80+((LEVEL-1)*$1600)
+
+   Else If LEVEL>4 and LEVEL<9 : Rem -- 5,6,7,8 
+      LEVELDATA=$18C80+((LEVEL-1)*$1600)+$4200
+
+   Else If LEVEL>8 and LEVEL<12 : Rem -- 9,10,11,12  
+      LEVELDATA=$18C80+((LEVEL-1)*$1600)+($1E400)
+
+   Else If LEVEL>11 and LEVEL<16 : Rem -- 13,14,15  
+Rem      LEVELDATA=$18C80+((LEVEL-1)*$1600)+($1E400+$5800) 
+      LEVELDATA=$18C80+((LEVEL-1)*$1600)+($23C00)
+
+   Else If LEVEL>15 and LEVEL<18 : Rem -- 16,17 
+Rem      LEVELDATA=$18C80+((LEVEL-1)*$1600)+($1E400+$11E00)
+      LEVELDATA=$18C80+((LEVEL-1)*$1600)+($30200)
+
+   Else If LEVEL>17 and LEVEL<20 : Rem -- 18,19,20,21 
+      LEVELDATA=$18C80+((LEVEL-1)*$1600)+($3C800)
+
+   Else If LEVEL>19 and LEVEL<22 : Rem -- 18,19,20,21 
+      LEVELDATA=$18C80+((LEVEL-1)*$1600)+($46200)
+
+End If 
+
+
+If LEVEL=1 Then LEVEL$="1_1"
+If LEVEL=2 Then LEVEL$="1_2"
+If LEVEL=3 Then LEVEL$="1_3"
+If LEVEL=4 Then LEVEL$="1_4"
+If LEVEL=5 Then LEVEL$="2_1"
+If LEVEL=6 Then LEVEL$="2_2"
+If LEVEL=7 Then LEVEL$="2_3"
+If LEVEL=8 Then LEVEL$="2_4"
+If LEVEL=9 Then LEVEL$="3_1"
+If LEVEL=10 Then LEVEL$="3_2"
+If LEVEL=11 Then LEVEL$="3_3"
+If LEVEL=12 Then LEVEL$="3_4"
+
+If LEVEL=13 Then LEVEL$="4_1"
+If LEVEL=14 Then LEVEL$="4_2"
+If LEVEL=15 Then LEVEL$="4_3"
+If LEVEL=16 Then LEVEL$="4_4"
+If LEVEL=17 Then LEVEL$="4_4b"
+If LEVEL=18 Then LEVEL$="5_1"
+If LEVEL=19 Then LEVEL$="5_2"
+If LEVEL=20 Then LEVEL$="5_3"
+If LEVEL=21 Then LEVEL$="5_4"
+
+
+
+
+Return 

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The New Zealand Story — Amiga Map Editor</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* P11: keep both level navigation and read-only overlay controls reachable. */
+.workspace .left{overflow-y:auto;scrollbar-color:#405564 transparent}
+.workspace .left .levels{flex:0 0 auto;min-height:120px;max-height:215px;overflow-y:auto}
+#p11EntityToggles{flex:0 0 auto;padding-bottom:12px}
+#p11EntityToggles .checkbox{padding:6px 12px}
+#p11EntityToggles .section-heading{padding-top:9px}
+#p11EntityCanvas{pointer-events:none}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">NZ</div><div class="brand-text"><strong>New Zealand Story</strong><small>Amiga Map Editor <span class="version">v0.3 + entity viewer</span></small></div></div>
+  <nav class="top-actions" aria-label="Files and history">
+    <button id="openDisk" type="button" class="primary" title="Load an original 901,120-byte Disk.1 image">Open Disk.1</button>
+    <button id="importMap" type="button" title="Import exactly 4096 map bytes for the selected stage">Import map</button>
+    <span class="divider"></span>
+    <button id="exportDisk" type="button" disabled title="Export map edits only; entity and warp bytes are preserved">Export Disk.1</button>
+    <button id="exportMap" type="button" title="Export raw 64 × 64 tile map">Export map</button>
+    <button id="exportPNG" type="button" title="Save the background map as PNG">PNG</button>
+    <span class="divider"></span>
+    <button id="undo" type="button" aria-label="Undo" title="Undo (U or Ctrl/Cmd+Z)">↶</button>
+    <button id="redo" type="button" aria-label="Redo" title="Redo (R)">↷</button>
+  </nav>
+  <div id="sourceState" class="header-status">Preview data</div>
+  <input type="file" id="diskInput" hidden accept=".1,.adf,.bin,application/octet-stream">
+  <input type="file" id="mapInput" hidden accept=".map,.bin,application/octet-stream">
+</header>
+<div class="workspace">
+  <aside class="side left" aria-label="Level navigation and overlays">
+    <div class="section-heading">LEVELS <span>21</span></div>
+    <div id="levels" class="levels"></div>
+    <div class="section-heading">OVERVIEW <span id="overviewLevel">1_1</span></div>
+    <div class="mini-wrap"><canvas id="mini" width="256" height="256"></canvas><div id="miniFrame"></div></div>
+    <div class="level-ops"><button type="button" id="revertLevel">Revert level</button></div>
+    <div class="section-heading compact">DISPLAY</div>
+    <label class="checkbox"><input id="toggleActive" type="checkbox" checked>Level bounds</label>
+    <label class="checkbox"><input id="toggleHeaderPoint" type="checkbox">Header point</label>
+    <label class="checkbox"><input id="toggleGrid" type="checkbox">Tile grid <kbd>G</kbd></label>
+    <label class="checkbox"><input id="toggleMissing" type="checkbox" checked>Tiles outside bank</label>
+    <div id="p11EntityToggles"></div>
+  </aside>
+  <main class="centre">
+    <header class="edit-heading"><div><span class="eyebrow">MAP</span><strong id="mapName">World 1 · Level 1</strong><span id="dirtyFlag" class="unsaved" hidden title="Unsaved map edit">●</span></div>
+      <div class="view-controls">Zoom
+        <select id="zoom" title="Canvas zoom">
+          <option value="0.5">50%</option><option value="0.75">75%</option><option value="1" selected>100%</option><option value="1.5">150%</option><option value="2">200%</option><option value="3">300%</option><option value="4">400%</option><option id="customZoom" hidden value="1">Fit</option>
+        </select><button id="fit" type="button">Fit</button>
+      </div>
+    </header>
+    <div id="viewport" class="canvas-viewport"><div id="canvasStack" class="canvas-stack"><canvas id="mapCanvas" width="1024" height="1024"></canvas><canvas id="overlayCanvas" width="1024" height="1024" aria-label="Map editing surface"></canvas></div></div>
+    <div class="statusbar"><span id="pointerInfo">X — · Y —</span><span id="mapInfo">64 × 64 tiles · 16 × 16 pixels</span><span id="message" aria-live="polite"></span></div>
+  </main>
+  <aside class="side right" aria-label="Drawing tools and inspected entities">
+    <div class="section-heading">DRAW TOOLS <span id="toolName">Pencil</span></div>
+    <div id="tools" class="tool-grid">
+      <button type="button" data-tool="pencil" class="selected" title="Pencil (P)">✎</button>
+      <button type="button" data-tool="fill" title="Flood fill (F)">▨</button>
+      <button type="button" data-tool="pick" title="Pick tile (I)">⌖</button>
+      <button type="button" data-tool="line" title="Line (L)">╱</button>
+      <button type="button" data-tool="rect" title="Rectangle (B)">▢</button>
+      <button type="button" data-tool="rectfilled" title="Filled rectangle (Shift+B)">▣</button>
+    </div>
+    <div id="p11EntityInspector"></div>
+    <div class="section-heading">SELECTED TILE <span id="selectedIndex">$00</span></div>
+    <div class="selection-card"><canvas id="tilePreview" width="80" height="80"></canvas><div><div id="tileNumber" class="tile-number">00</div><div id="tileAvailability" class="tile-label">Original tile</div></div></div>
+    <div class="section-heading">TILE ATLAS <span id="atlasCount">—</span></div>
+    <div class="atlas-scroller"><canvas id="tileGrid" width="288" height="528"></canvas></div>
+    <div class="section-heading">PALETTE <span id="paletteCount">—</span></div>
+    <div id="palette" class="palette"></div>
+  </aside>
+</div>
+<script src="nzs-core.js"></script>
+<script src="nzs-graphics.js"></script>
+<script src="nzs-level-headers.js"></script>
+<script src="data/stock-maps.js"></script>
+<script src="app.js"></script>
+<script src="nzs-entities.js"></script>
+</body>
+</html>
