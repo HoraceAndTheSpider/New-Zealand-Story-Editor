@@ -1,5 +1,5 @@
-/* NZS P11: read-only native placement and ordinary-transition inspector.
- * Sprite artwork is deliberately not synthesised: frame IDs are not pixel pointers.
+/* NZS P11–P12: read-only native placement and ordinary-transition inspector.
+ * Real sprite art is indexed through separate original savestate image catalogue.
  * Disk offsets and typed roles: canonical wiki/03 and wiki/04 (P10/P09 evidence).
  */
 (function(root){
@@ -36,7 +36,7 @@ function decodeWarps(disk){
 }
 function hx(n,d=2){return '$'+n.toString(16).toUpperCase().padStart(d,'0');}
 function classify(type){if(type===0)return 'entry';if(type===1||type===2)return 'objective';if(type===3)return 'generator';if(type===31)return 'type1f';if(type===32)return 'type20';return 'direct';}
-function role(type){return type===0?'Entry candidate':type===1?'Ordinary objective candidate':type===2?'Boss objective candidate':type===3?'Native actor generator':type===31?'Direct actor $1F (identity unknown)':type===32?'Possible pickup $20 (identity unknown)':'Direct actor (identity unknown)';}
+function role(type){return type===0?'Entry candidate':type===1?'Ordinary objective candidate':type===2?'Boss objective candidate':type===3?'Native actor generator':type===31?'Fruit / item family $1F (instance unverified)':type===32?'Bonus-letter family $20 (instance unverified)':'Direct actor (identity unknown)';}
 function parseDisk(disk){
  if(!(disk instanceof Uint8Array)||disk.length!==901120||disk[0]!==0x44||disk[1]!==0x4f||disk[2]!==0x53)throw Error('Expected original-format 901,120-byte Disk.1');
  const levels=NAMES.map((name,stage)=>{
@@ -51,12 +51,18 @@ function parseDisk(disk){
  const stock=all.length===599&&g===298&&t1f===29&&t20===30&&levels.every(rows=>rows[0].type===0);
  return {levels,warps,stock,counts:{records:all.length,generators:g,type1f:t1f,type20:t20}};
 }
-function canvasY(record,height,shiftTiles=0){
- // Tile map source is 64 rows bottom-up; actor Y is a top-down stage-local unit.
- // The 16px anchor adjustment is purely an optional presentation hypothesis.
- return (64-height+record.y+shiftTiles)*16+8;
+function canvasX(record,shiftTiles=0){
+ // Native factory RAM $05872 and generator RAM $0B71C: Xcell*16+4.
+ // Extra full-tile correction is an explicitly unverified view option.
+ return record.x*16+4+shiftTiles*16;
 }
-const API=Object.freeze({NAMES,START,COUNT,decodeWarps,parseDisk,canvasY,classify,role});
+function canvasY(record,height,shiftTiles=0){
+ // Native factory and generator Y=Ycell*16; grid is bottom-up, placements stage-local.
+ // No +8 tile-centre offset: that was a P11 marker error, not native geometry.
+ if(!Number.isInteger(height)||height<1||height>64)throw RangeError('Invalid active height');
+ return (64-height+record.y+shiftTiles)*16;
+}
+const API=Object.freeze({NAMES,START,COUNT,decodeWarps,parseDisk,canvasX,canvasY,classify,role});
 root.NZSEntities=API;
 if(typeof module==='object'&&module.exports)module.exports=API;
 if(typeof document==='undefined')return;
@@ -69,12 +75,15 @@ function setup(){
  ctx.imageSmoothingEnabled=false;
  const colors={entry:'#c5f9e0',objective:'#ffc46a',generator:'#b598f6',direct:'#c9deeb',type1f:'#ed9fcc',type20:'#a8f4b7',out:'#ffd073',incoming:'#71d9f9'};
  const groups=[['entry','Entry'],['objective','Objectives'],['generator','$03 generators'],['direct','Other direct'],['type1f','$1F actors'],['type20','$20 candidates'],['out','Warp out'],['incoming','Warp in']];
- let parsed=null,inspect=false,selected=null,anchor=-1,levelIndex=0;
+ let parsed=null,inspect=false,selected=null,shiftX=0,shiftY=0,levelIndex=0;
  const header=document.createElement('div');header.className='section-heading compact';header.innerHTML='ENTITIES <span id="p11Count">—</span>';parent.appendChild(header);
  for(const [key,label] of groups){const el=document.createElement('label');el.className='checkbox';el.title=key==='out'||key==='incoming'?'Native P09 ordinary transition only; pixel projection provisional':'Read-only source placements';
   el.innerHTML=`<input type="checkbox" data-entity="${key}" ${key==='generator'?'':'checked'}>${label}`;parent.appendChild(el);}
- const offsetLabel=document.createElement('label');offsetLabel.className='checkbox';offsetLabel.title='Compare recorded placement coordinate with a provisional one-tile-up visual anchor. No Disk.1 bytes change.';
- offsetLabel.innerHTML='<input type="checkbox" id="p11Compare" checked>Anchor comparison';parent.appendChild(offsetLabel);
+ const offsetLabel=document.createElement('label');offsetLabel.className='checkbox';offsetLabel.title='White cross shows code-backed native source X/Y. Separate X/Y adjustments affect preview only; neither changes Disk.1.';
+ offsetLabel.innerHTML='<input type="checkbox" id="p11Compare" checked>Show source anchor';parent.appendChild(offsetLabel);
+ const offsets=document.createElement('div');offsets.className='p11-coordinates';
+ offsets.innerHTML='<label title="Unverified horizontal view correction. Native base is Xtile×16+4">X <select id="p11ShiftX"><option value="-1">−16</option><option value="0" selected>0</option><option value="1">+16</option></select></label><label title="Unverified vertical view correction. Native base is Ytile×16">Y <select id="p11ShiftY"><option value="-1">−16</option><option value="0" selected>0</option><option value="1">+16</option></select></label>';
+ parent.appendChild(offsets);
  const box=document.createElement('div');box.style.padding='9px 12px';box.style.display='flex';box.style.gap='5px';
  box.innerHTML='<button id="p11Inspect" type="button" style="width:100%" title="Inspect a nearby object by clicking its marker. Painting is suspended in this mode.">Inspect entities</button>';
  inspector.appendChild(document.createElement('div')).outerHTML='<div class="section-heading">ENTITIES <span id="p11Active">PAINT</span></div>';
@@ -88,7 +97,7 @@ function setup(){
  // source header height can change. Read it from the source disk if present.
  let disk=null;
  function currentHeight(i){const off=root.NZS_STOCK.levels[i].offset-128;return disk?((disk[off+4]<<8)|disk[off+5]):height(i);}
- function point(r,i){return {x:r.x*16+8,y:canvasY(r,currentHeight(i),anchor)};}
+ function point(r,i){return {x:canvasX(r,shiftX),y:canvasY(r,currentHeight(i),shiftY)};}
  function records(){return parsed?.levels[levelIndex]||[];}
  function collectPoints(){
   const enabled=chosen(),p=[];for(const r of records())if(enabled.has(r.kind))p.push({r,group:r.kind,...point(r,levelIndex)});
@@ -108,16 +117,22 @@ function setup(){
   if(!parsed){$('p11Count').textContent='OPEN DISK';setDetail(['Open Disk.1 to inspect native objects.']);return;}
   $('p11Count').textContent=String(records().length);
   const ps=collectPoints();for(const p of ps){
-   if(p.r.type!==undefined&&$('p11Compare').checked){const raw=canvasY(p.r,currentHeight(levelIndex),0);ctx.lineWidth=1;ctx.strokeStyle='rgba(255,255,255,.6)';ctx.strokeRect(p.x-2,raw-2,4,4);ctx.beginPath();ctx.setLineDash([2,3]);ctx.moveTo(p.x,raw);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.setLineDash([]);}
+   if(p.r.type!==undefined&&$('p11Compare').checked){
+    const rawX=canvasX(p.r,0),rawY=canvasY(p.r,currentHeight(levelIndex),0);
+    ctx.lineWidth=1;ctx.strokeStyle='rgba(255,255,255,.8)';
+    ctx.beginPath();ctx.moveTo(rawX-4,rawY);ctx.lineTo(rawX+4,rawY);ctx.moveTo(rawX,rawY-4);ctx.lineTo(rawX,rawY+4);ctx.stroke();
+    if(rawX!==p.x||rawY!==p.y){ctx.beginPath();ctx.setLineDash([2,3]);ctx.moveTo(rawX,rawY);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.setLineDash([]);}
+   }
    mark(p.x,p.y,p.group,selected===p.r);
   }
  }
  function detailsFor(r){if(!r)return ['Click an entity marker to inspect.'];
   if(r.kind==='out'||r.kind==='incoming')return [`${r.kind==='out'?'Outgoing':'Incoming'} ordinary warp`,`${NAMES[r.source]} → ${NAMES[r.target]}`,`OUT tile ${r.x},${r.y} / IN raw ${r.dx},${r.dy}`,'Arrival projection not verified'];
-  return [`${role(r.type)}`,`Type ${hx(r.type)} · Parameter ${hx(r.parameter)}`,`Source ${NAMES[r.stage]} #${r.ordinal} · Disk ${hx(r.disk,6)}`,`X ${r.x} · Y ${r.y} (source)`,ANIM[r.type]?`Sequence ${ANIM[r.type]}`:'Graphic sequence not identified','No native image has been verified'];
+  return [`${role(r.type)}`,`Type ${hx(r.type)} · Parameter ${hx(r.parameter)}`,`Source ${NAMES[r.stage]} #${r.ordinal} · Disk ${hx(r.disk,6)}`,`Source (${r.x}, ${r.y}); native (${canvasX(r)}, ${canvasY(r,currentHeight(r.stage))})`, `View shift X ${shiftX*16}px · Y ${shiftY*16}px`, ANIM[r.type]?`Sequence ${ANIM[r.type]}`:'Graphic sequence not identified','No native image has been verified'];
  }
  $('p11Inspect').onclick=()=>{inspect=!inspect;$('p11Inspect').classList.toggle('selected',inspect);$('p11Active').textContent=inspect?'VIEW ONLY':'PAINT';};
- offsetLabel.querySelector('input').onchange=e=>{anchor=e.target.checked?-1:0;selected=null;redraw();setDetail(['Source square shown as a white outline.','−16px visual anchor is unverified.']);};
+ $('p11ShiftX').onchange=e=>{shiftX=Number(e.target.value);selected=null;redraw();setDetail(['Horizontal display shift '+shiftX*16+'px · unverified.']);};
+ $('p11ShiftY').onchange=e=>{shiftY=Number(e.target.value);selected=null;redraw();setDetail(['Vertical display shift '+shiftY*16+'px · unverified.']);};
  parent.addEventListener('change',redraw);
  overlay.addEventListener('pointerdown',ev=>{
   if(!inspect||ev.button!==0)return;
