@@ -30,9 +30,13 @@
 #p12SpriteBrowser .section-heading{padding-top:11px}
 #p12SpriteBrowser .p12-controls{padding:8px 12px}
 #p12SpriteBrowser .p12-controls select{width:100%}
+#p12SpriteBrowser .p12-sprite-grid{max-height:260px}
+#p12SpriteBrowser .p12-sprite-thumb canvas{width:auto;height:auto;max-width:39px;max-height:37px;image-rendering:pixelated}
+#p12SpriteBrowser .p12-ghost-actions{display:flex;gap:5px;padding:6px 12px 13px}
+#p12SpriteBrowser .p12-ghost-actions button{flex:1;white-space:normal;font-size:11px;padding:5px 3px}
 .p12-sprite-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;margin:3px 8px 8px;max-height:166px;overflow-y:auto}
 .p12-sprite-thumb{padding:2px;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;height:58px;gap:1px}
-.p12-sprite-thumb img{width:36px;height:38px;object-fit:contain;image-rendering:pixelated}
+.p12-sprite-thumb img{max-width:36px;max-height:38px;image-rendering:pixelated}
 .p12-sprite-thumb span{font:10px ui-monospace,monospace;color:#b6d7dc}
 .p12-sprite-thumb.selected{border-color:#70ded2;background:#164349}
 .p12-sprite-selected{padding:7px 12px 12px}
@@ -40,12 +44,57 @@
 .p12-sprite-detail img{object-fit:contain;image-rendering:pixelated;max-width:150px;max-height:120px;width:auto;height:auto}
 .p12-sprite-detail small{width:100%;font-size:10px;color:#89aab7;overflow-wrap:anywhere}
 #p12SpriteCanvas{pointer-events:none}
+#p15FrameUsage button{padding:5px 9px;margin-top:5px;font-size:11px}
+#p12SpriteBrowser .p14-note{padding:6px 12px 9px;font:11px/1.5 system-ui,sans-serif;color:#a6c6d2}
+#p12SpriteBrowser .p14-entity-pose{border-top:1px solid #374850;margin:8px 0}
+#p12SpriteBrowser .p12-sprite-thumb canvas{max-width:39px;max-height:37px;image-rendering:pixelated}
+#p12SpriteBrowser .p12-sprite-grid{max-height:320px}
+#p12SpriteBrowser .p12-sprite-selected canvas{image-rendering:pixelated}
+#p12SpriteBrowser .p12-ghost-actions{display:flex;gap:6px}
+#p12SpriteBrowser .p12-ghost-actions button{min-width:0;flex:1}
+/* Original four property bytes, 2×2; no speculative solidity labels. */
+#p16TileMask{padding-bottom:8px;border-bottom:1px solid #2d414e}
+#p16TileMask .p16-mask-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px;width:110px;margin:7px 12px}
+#p16TileMask .p16-mask-grid>div{background:#263641;border:1px solid #536b79;border-radius:3px;text-align:center;padding:7px 4px;color:#cee9dc;font:bold 13px ui-monospace,monospace}
+#p16TileMask .p16-mask-bytes{padding:2px 12px;color:#d2e4ef;font:11px ui-monospace,monospace}
+#p16TileMask .p16-mask-hint{padding:3px 12px 8px;color:#8eafb9;font:11px/1.3 system-ui,sans-serif}
 #mapName{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:min(52vw,650px)}
+/* P19: one right-hand work mode at a time; technical trace stays collapsed. */
+.p19-side-pane[hidden],.p19-generator-review[hidden]{display:none!important}
+.p19-mode-switch{display:flex;position:sticky;top:0;z-index:8;gap:5px;padding:9px 10px 8px;background:#192932;border-bottom:1px solid #344754}
+.p19-mode-switch button{flex:1;padding:9px 4px;border:1px solid #4c6473;border-radius:6px;background:#283946;color:#becedc;font-weight:700}
+.p19-mode-switch button.selected{background:#24636c;color:#fff;border-color:#71b8b8}
+.p19-side-pane{min-width:0}
+.p19-calibration{display:flex;gap:7px;padding:4px 12px 9px}
+.p19-calibration label{display:flex;gap:4px;align-items:center;flex:1;font-size:11px;color:#d0dce5}
+.p19-calibration select{min-width:0;width:57px;padding:3px 1px;font-size:11px}
+.p19-technical{margin:7px 9px;color:#b6c7d3;font-size:11px}
+.p19-technical summary{cursor:pointer;padding:5px 7px;border:1px solid #465b66;border-radius:4px}
+.p19-technical[open]{padding-bottom:7px}
+.p19-generator-review{border-top:1px solid #38515d;margin:7px 8px;padding:9px 3px}
+.p19-generator-review strong{color:#afe7d5;font-size:12px}
+.p19-sequence{display:flex;flex-direction:column;gap:8px;margin:6px 0}
+.p19-sequence-line{display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding-bottom:4px;border-bottom:1px solid #3c4e57}
+.p19-sequence-line span{min-width:95px;font-size:10px;color:#bdd5e4}
+.p19-sequence-line canvas{width:auto;height:auto;max-width:35px;max-height:40px;image-rendering:pixelated}
+.p19-review-caption{font-size:11px;color:#c4dfe8;padding:6px 1px}
+.p19-request-steps{display:flex;flex-wrap:wrap;gap:5px}
+.p19-request-steps button{padding:5px 7px;font:11px ui-monospace,monospace}
+.p19-request-steps button.selected{background:#2d7072;border-color:#70c5b8;color:white}
+#p11Detail details{padding:4px 0;font-size:11px}
+#p11Detail details summary{cursor:pointer}
+/* v0.11 compact generator-sequence controls */
+.p20-chain-control{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:5px 11px;color:#dae9ef;font-size:11px}
+.p20-chain-control select{min-width:0;max-width:145px;padding:5px 2px;font-size:11px}
+.p20-chain-actions{display:flex;gap:5px;padding:3px 0 8px}
+.p20-chain-actions button{flex:1;padding:6px 4px;font-size:11px}
+.p20-live-request{font:11px ui-monospace,monospace;color:#96dfed;padding:3px 2px 5px}
+.p20-native-note{display:block;font-size:10px;color:#a3bbc9;line-height:1.35;padding:5px 0}
 </style>
 </head>
 <body>
 <header class="topbar">
-  <div class="brand"><div class="brand-mark">NZ</div><div class="brand-text"><strong>New Zealand Story</strong><small>Amiga Map Editor <span class="version">v0.3 + sprite viewer P12</span></small></div></div>
+  <div class="brand"><div class="brand-mark">NZ</div><div class="brand-text"><strong>New Zealand Story</strong><small>Amiga Map Editor <span class="version">v0.11 · Generator preview & native trace</span></small></div></div>
   <nav class="top-actions" aria-label="Files and history">
     <button id="openDisk" type="button" class="primary" title="Load an original 901,120-byte Disk.1 image">Open Disk.1</button>
     <button id="importMap" type="button" title="Import exactly 4096 map bytes for the selected stage">Import map</button>
@@ -57,7 +106,7 @@
     <button id="undo" type="button" aria-label="Undo" title="Undo (U or Ctrl/Cmd+Z)">↶</button>
     <button id="redo" type="button" aria-label="Redo" title="Redo (R)">↷</button>
   </nav>
-  <div id="sourceState" class="header-status">Preview data</div>
+  <div id="sourceState" class="header-status">Open Disk.1</div>
   <input type="file" id="diskInput" hidden accept=".1,.adf,.bin,application/octet-stream">
   <input type="file" id="mapInput" hidden accept=".map,.bin,application/octet-stream">
 </header>
@@ -97,9 +146,9 @@
       <button type="button" data-tool="rectfilled" title="Filled rectangle (Shift+B)">▣</button>
     </div>
     <div id="p11EntityInspector"></div>
-    <div id="p12SpriteBrowser"></div>
     <div class="section-heading">SELECTED TILE <span id="selectedIndex">$00</span></div>
     <div class="selection-card"><canvas id="tilePreview" width="80" height="80"></canvas><div><div id="tileNumber" class="tile-number">00</div><div id="tileAvailability" class="tile-label">Original tile</div></div></div>
+    <div id="p12SpriteBrowser"></div>
     <div class="section-heading">TILE ATLAS <span id="atlasCount">—</span></div>
     <div class="atlas-scroller"><canvas id="tileGrid" width="288" height="528"></canvas></div>
     <div class="section-heading">PALETTE <span id="paletteCount">—</span></div>
@@ -110,10 +159,15 @@
 <script src="nzs-graphics.js"></script>
 <script src="nzs-level-headers.js"></script>
 <script src="data/stock-maps.js"></script>
+<script src="nzs-sprite-disk.js"></script>
+<script src="nzs-tile-properties.js"></script>
+<script src="nzs-native-generators.js"></script>
 <script src="app.js"></script>
 <script src="nzs-world-navigation.js"></script>
 <script src="nzs-entities.js"></script>
-<script src="nzs-sprite-data.js"></script>
+<script src="nzs-animation-catalogue.js"></script>
+<script src="nzs-native-frame-resolver.js"></script>
 <script src="nzs-sprites.js"></script>
+<script src="nzs-right-modes.js"></script>
 </body>
 </html>
